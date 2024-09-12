@@ -1,0 +1,25 @@
+There are two files in this folder, one is for a stationary k bandit problem other for non-stationary.
+
+Stationary k-Bandit Problem:
+The formula used is Q[n+1] = Q[n] + (R[n]-Q[n])/n
+Where:
+Q[n+1] is the estimated reward if that action is chosen again
+Q[n] is the previous estimated reward
+R[n] is the actual reward received
+
+The initial values of all k-bandits is chosed randomly from 0-10. A small uniform variance of 0-1 is generated in the reward values after each iteration to make the game more intresting.
+
+Non-Stationary k-Bandit Problem:
+The formula used is Q[n+1] = (1-alpha)Q[1] + {for i = 0 to n}[(1-alpha)^(n-i)]*(alpha)*R[i]
+Where:
+Q[n+1] is the estimated reward if that action is chosen again
+Q[1] is the initial estimated reward for that action
+R[i] is the actual reward received
+alpha is a constant
+
+This formula makes sure that more weight is given to the most recent rewards. Different values of alpha (0.1, 0.2, 0.3) have been taken for experimentation.
+All the initial values for all k bandits were taken as 10 and they are changed with normal distribution with standard deviation of 0.1 after each iteration.
+I was able to reach a 80% most optimal path chosen accuracy, with 50,000 iterations and alpha = 0.3. The epsilon value was taken as 0.5 at the start and decremented by 0.1 every 5,000 iterations until it reached 0.1 and stayed constant. 
+The time complexity is not exactly O(n^2) but is in between O(n) and O(n^2).
+This is because after choosing any one of the bandit the reward for that bandit has to be calvulated through recursion. If the most selected bandit is chosen again it results into higher probability. (it's a bit probabilistic on how often the most selected path was chosen again(exploration vs exploitation))
+I could have improved the code performance by using numba and jit compilers, but i followed the most important principle of programming "If it's working DO NOT change it." (Also I have used some numpy operations which aren't supported by numba and I didn't want to find alternatives for them)
